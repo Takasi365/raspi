@@ -1,46 +1,41 @@
-import os
-import numpy as np
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras import layers, models
 
-# データセットのパス
-train_dir = 'data/train'
-
-# データ拡張の設定
-train_datagen = ImageDataGenerator(rescale=1./255, validation_split=0.2)
+# データジェネレータの設定
+train_datagen = ImageDataGenerator(rescale=1./255, horizontal_flip=True, vertical_flip=True, rotation_range=30)
+test_datagen = ImageDataGenerator(rescale=1./255)
 
 train_generator = train_datagen.flow_from_directory(
-    train_dir,
-    target_size=(128, 128),
-    batch_size=32,
-    class_mode='categorical',
-    subset='training'  # 学習用データ
+    'data/train',
+    target_size=(150, 150),
+    batch_size=20,
+    class_mode='categorical'
 )
 
-validation_generator = train_datagen.flow_from_directory(
-    train_dir,
-    target_size=(128, 128),
-    batch_size=32,
-    class_mode='categorical',
-    subset='validation'  # 検証用データ
+validation_generator = test_datagen.flow_from_directory(
+    'data/test_images',
+    target_size=(150, 150),
+    batch_size=20,
+    class_mode='categorical'
 )
 
 # モデルの構築
-model = Sequential([
-    Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 3)),
-    MaxPooling2D(pool_size=(2, 2)),
-    Conv2D(64, (3, 3), activation='relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-    Flatten(),
-    Dense(128, activation='relu'),
-    Dense(3, activation='softmax')  # 3クラス分類
+model = models.Sequential([
+    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(150, 150, 3)),
+    layers.MaxPooling2D((2, 2)),
+    layers.Conv2D(64, (3, 3), activation='relu'),
+    layers.MaxPooling2D((2, 2)),
+    layers.Conv2D(128, (3, 3), activation='relu'),
+    layers.MaxPooling2D((2, 2)),
+    layers.Flatten(),
+    layers.Dense(512, activation='relu'),
+    layers.Dense(3, activation='softmax')
 ])
 
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-# モデルの学習
+# モデルのトレーニング
 model.fit(
     train_generator,
     steps_per_epoch=train_generator.samples // train_generator.batch_size,
