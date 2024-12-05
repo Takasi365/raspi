@@ -1,8 +1,7 @@
-# picamera2 をインポート
 from picamera2 import Picamera2
 import time
 
-# カメラの設定
+# Picamera2のインスタンスを作成
 picam2 = Picamera2()
 
 # カメラの設定を開始
