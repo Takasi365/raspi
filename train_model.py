@@ -1,24 +1,38 @@
+import os
+import numpy as np
 import tensorflow as tf
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras import layers, models
+from sklearn.model_selection import train_test_split
+from tensorflow.keras.preprocessing import image
+import matplotlib.pyplot as plt
 
-# データジェネレータの設定
-train_datagen = ImageDataGenerator(rescale=1./255, horizontal_flip=True, vertical_flip=True, rotation_range=30)
-test_datagen = ImageDataGenerator(rescale=1./255)
+# データのパス設定
+data_dir = 'data'  # data/ フォルダのパス
+categories = ['pre_harvest', 'harvest', 'post_harvest']  # 収穫前、収穫時期、収穫後のカテゴリ名
 
-train_generator = train_datagen.flow_from_directory(
-    'data/train',
-    target_size=(150, 150),
-    batch_size=20,
-    class_mode='categorical'
-)
+# 画像データとラベルをリストに格納
+def load_images():
+    images = []
+    labels = []
+    for category in categories:
+        category_path = os.path.join(data_dir, category)
+        label = categories.index(category)  # ラベルはカテゴリのインデックス
+        for img_name in os.listdir(category_path):
+            img_path = os.path.join(category_path, img_name)
+            img = image.load_img(img_path, target_size=(150, 150))  # 画像をリサイズ
+            img_array = image.img_to_array(img)  # 画像をNumPy配列に変換
+            images.append(img_array)
+            labels.append(label)
+    return np.array(images), np.array(labels)
 
-validation_generator = test_datagen.flow_from_directory(
-    'data/test_images',
-    target_size=(150, 150),
-    batch_size=20,
-    class_mode='categorical'
-)
+# 画像とラベルの読み込み
+images, labels = load_images()
+
+# 画像の正規化
+images = images / 255.0
+
+# データを訓練用とテスト用に分割
+X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.2, random_state=42)
 
 # モデルの構築
 model = models.Sequential([
@@ -29,20 +43,26 @@ model = models.Sequential([
     layers.Conv2D(128, (3, 3), activation='relu'),
     layers.MaxPooling2D((2, 2)),
     layers.Flatten(),
-    layers.Dense(512, activation='relu'),
-    layers.Dense(3, activation='softmax')
+    layers.Dense(128, activation='relu'),
+    layers.Dense(3, activation='softmax')  # 3つのクラスを分類
 ])
 
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+# モデルのコンパイル
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
 
-# モデルのトレーニング
-model.fit(
-    train_generator,
-    steps_per_epoch=train_generator.samples // train_generator.batch_size,
-    epochs=10,
-    validation_data=validation_generator,
-    validation_steps=validation_generator.samples // validation_generator.batch_size
-)
+# モデルの学習
+history = model.fit(X_train, y_train, epochs=10, validation_data=(X_test, y_test))
 
-# モデルを保存
-model.save('models/harvest_model.h5')
+# 学習結果の保存
+model.save('model/harvest_model.h5')
+
+# 学習の進行状況をプロット
+plt.plot(history.history['accuracy'], label='accuracy')
+plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.ylim([0, 1])
+plt.legend(loc='lower right')
+plt.show()
