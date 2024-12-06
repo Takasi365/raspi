@@ -5,3 +5,5 @@ sudo apt install build-essential python3-dev -y
 mkdir -p data/pre_harvest
 mkdir -p data/harvest
 mkdir -p data/post_harvest
+source /path/to/your/env/bin/activate
+geany
