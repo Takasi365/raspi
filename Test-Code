@@ -7,3 +7,8 @@ mkdir -p data/harvest
 mkdir -p data/post_harvest
 source /path/to/your/env/bin/activate
 geany
+git clone https://github.com/raspberrypi/libcamera.git
+cd libcamera
+git checkout --recurse-submodules v0.3.x
+./build.py -p python
+sudo python3 setup.py install
