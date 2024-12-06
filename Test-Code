@@ -2,3 +2,6 @@ pip install tensorflow numpy matplotlib picamera2
 sudo apt update
 sudo apt install libcap-dev -y
 sudo apt install build-essential python3-dev -y
+mkdir -p data/pre_harvest
+mkdir -p data/harvest
+mkdir -p data/post_harvest
