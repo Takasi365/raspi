@@ -12,3 +12,15 @@ cd libcamera
 git checkout --recurse-submodules v0.3.x
 ./build.py -p python
 sudo python3 setup.py install
+
+cd /home/takase/project_root/libcamera
+ls
+cd /home/takase/project_root/libcamera
+sudo apt update
+sudo apt install cmake g++ pkg-config libboost-all-dev libglib2.0-dev libdrm-dev libjpeg-dev libv4l-dev libeigen3-dev libyaml-cpp-dev
+mkdir build
+cd build
+cmake ..
+make -j$(nproc)
+sudo make install
+pip install picamera2
