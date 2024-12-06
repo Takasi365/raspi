@@ -1,0 +1,1 @@
+mkdir -p harvest_prediction/{data/{pre_harvest,harvest,post_harvest},model,scripts}
