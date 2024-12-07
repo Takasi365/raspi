@@ -7,3 +7,5 @@ ninja -C build
 sudo ninja -C build install
 cd src/py
 python3 setup.py install
+deactivate  # 仮想環境を終了
+python3 -c "import libcamera; print('libcamera Python bindings are working')"
