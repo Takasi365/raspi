@@ -25,3 +25,4 @@ make -j$(nproc)
 sudo make install
 pip install picamera2
 find /usr/local -name "libcamera*.so"
+sudo apt-get install python3-dev libcamera-dev meson ninja-build gstreamer
