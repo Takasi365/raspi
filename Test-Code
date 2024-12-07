@@ -35,3 +35,8 @@ git clone https://github.com/raspberrypi/libcamera.git
 cd libcamera
 
 sudo rm /usr/local/lib/aarch64-linux-gnu/libcamera.so
+
+find /usr/local/lib/ -name "libcamera.so"
+export PYTHONPATH=/usr/local/lib/python3.11/dist-packages:$PYTHONPATH
+python -c "from libcamera import ControlType, Rectangle, Size; print('libcamera Python bindings are working in virtualenv')"
+pip install picamera2
