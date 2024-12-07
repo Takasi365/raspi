@@ -26,3 +26,4 @@ sudo make install
 pip install picamera2
 find /usr/local -name "libcamera*.so"
 sudo apt-get install python3-dev libcamera-dev meson ninja-build gstreamer
+sudo apt-get install gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good
