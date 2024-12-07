@@ -1,17 +1,14 @@
 from picamera2 import Picamera2
-import time
 
-# Picamera2オブジェクトを初期化
+# Picamera2 のインスタンスを作成
 picam2 = Picamera2()
 
-# カメラ設定を初期化
-picam2.start()
+# カメラの設定（必要に応じて設定）
+picam2.configure(picam2.create_still_configuration())
 
 # 写真を撮影して保存
-output_file = "photo.jpg"
-picam2.capture_file(output_file)
+picam2.start()
+picam2.capture_file("test.jpg")
+picam2.stop()
 
-print(f"写真が撮影され、{output_file}に保存されました。")
-
-# 終了
-picam2.close()
+print("写真を撮影しました")
