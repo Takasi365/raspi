@@ -40,3 +40,4 @@ find /usr/local/lib/ -name "libcamera.so"
 export PYTHONPATH=/usr/local/lib/python3.11/dist-packages:$PYTHONPATH
 python -c "from libcamera import ControlType, Rectangle, Size; print('libcamera Python bindings are working in virtualenv')"
 pip install picamera2
+export LD_LIBRARY_PATH=/usr/local/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH
