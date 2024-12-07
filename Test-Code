@@ -33,3 +33,5 @@ cd ~
 rm -rf libcamera
 git clone https://github.com/raspberrypi/libcamera.git
 cd libcamera
+
+sudo rm /usr/local/lib/aarch64-linux-gnu/libcamera.so
