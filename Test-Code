@@ -28,3 +28,8 @@ meson setup --wipe build
 meson configure -Dpycamera=enabled build
 ninja -C build
 sudo ninja -C build install
+
+cd ~
+rm -rf libcamera
+git clone https://github.com/raspberrypi/libcamera.git
+cd libcamera
