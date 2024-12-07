@@ -9,3 +9,13 @@ cd src/py
 python3 setup.py install
 deactivate  # 仮想環境を終了
 python3 -c "import libcamera; print('libcamera Python bindings are working')"
+
+# 依存関係のインストール
+sudo apt install -y meson ninja-build python3-pybind11 python3-yaml python3-ply libjpeg-dev libtiff5-dev libavcodec-dev libswscale-dev
+
+# リポジトリのクローンとビルド
+git clone https://git.libcamera.org/libcamera/libcamera.git
+cd libcamera
+meson setup build
+ninja -C build
+sudo ninja -C build install
