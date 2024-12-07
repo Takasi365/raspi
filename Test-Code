@@ -22,3 +22,9 @@ sudo ninja -C build install
 
 source ~/env/bin/activate
 python -c "from libcamera import ControlType, Rectangle, Size; print('libcamera Python bindings are working in virtualenv')"
+
+cd ~/libcamera
+meson setup --wipe build
+meson configure -Dpycamera=enabled build
+ninja -C build
+sudo ninja -C build install
