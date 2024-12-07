@@ -1,1 +1,9 @@
 rpicam-hello -t 0 --post-process-file ~/rpicam-apps/assets/hailo_yolov6_inference.json --lores-width 640 --lores-height 640
+sudo apt install -y cmake g++ python3-dev
+git clone --recurse-submodules https://gitlab.com/libcamera/libcamera.git
+cd libcamera
+meson build
+ninja -C build
+sudo ninja -C build install
+cd src/py
+python3 setup.py install
