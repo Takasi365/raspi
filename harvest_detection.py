@@ -7,15 +7,13 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from picamera2 import Picamera2
 import time
-from tensorflow.lite.python.interpreter import Interpreter
 
-# 学習済みモデルの読み込みまたは学習
+# 学習済みモデルの読み込み関数
 def load_or_train_model(data_dir, model_path='model/harvest_model.h5', tflite_model_path='model/harvest_model.tflite'):
-    # TensorFlow Liteモデルがあればそれを読み込む
-    if os.path.exists(tflite_model_path):
-        print("既存のTensorFlow Liteモデルを読み込んでいます...")
-        model = Interpreter(model_path=tflite_model_path)
-        model.allocate_tensors()
+    # モデルが存在すれば読み込む
+    if os.path.exists(model_path):
+        print("既存のモデルを読み込んでいます...")
+        model = tf.keras.models.load_model(model_path)
     else:
         print("新しいモデルを学習します...")
         # 画像データとラベルを読み込む
@@ -52,9 +50,6 @@ def load_or_train_model(data_dir, model_path='model/harvest_model.h5', tflite_mo
         os.makedirs('model', exist_ok=True)
         model.save(model_path)
 
-        # TensorFlow Lite形式に変換
-        convert_model_to_tflite(model, tflite_model_path)
-
         # 学習の進行状況をプロット
         plt.plot(history.history['accuracy'], label='accuracy')
         plt.plot(history.history['val_accuracy'], label='val_accuracy')
@@ -64,15 +59,10 @@ def load_or_train_model(data_dir, model_path='model/harvest_model.h5', tflite_mo
         plt.legend(loc='lower right')
         plt.show()
 
-    return model
+        # モデルをTensorFlow Liteに変換
+        convert_model_to_tflite(model, tflite_model_path)
 
-# モデルの変換
-def convert_model_to_tflite(model, tflite_model_path):
-    converter = tf.lite.TFLiteConverter.from_keras_model(model)
-    tflite_model = converter.convert()
-    with open(tflite_model_path, 'wb') as f:
-        f.write(tflite_model)
-    print(f"TensorFlow Liteモデルを保存しました: {tflite_model_path}")
+    return model
 
 # 画像データとラベルをリストに格納する関数
 def load_images(data_dir):
@@ -90,20 +80,25 @@ def load_images(data_dir):
             labels.append(label)
     return np.array(images), np.array(labels)
 
-# TensorFlow Liteでの推論
-def run_tflite_inference(model, img_array):
-    input_details = model.get_input_details()
-    output_details = model.get_output_details()
+# TensorFlowモデルをTensorFlow Liteに変換して保存する関数
+def convert_model_to_tflite(model, tflite_model_path):
+    try:
+        # TFLiteコンバータを使って変換
+        converter = tf.lite.TFLiteConverter.from_keras_model(model)
+        
+        # オプション: 量子化の設定（推奨される場合）
+        converter.optimizations = [tf.lite.Optimize.DEFAULT]
+        
+        # モデルを変換
+        tflite_model = converter.convert()
 
-    # 入力データをセット
-    model.set_tensor(input_details[0]['index'], img_array)
-    model.invoke()
-
-    # 推論結果を取得
-    output_data = model.get_tensor(output_details[0]['index'])
-    predicted_class = np.argmax(output_data)
-
-    return predicted_class
+        # 変換されたモデルをファイルに保存
+        with open(tflite_model_path, 'wb') as f:
+            f.write(tflite_model)
+        
+        print(f"TensorFlow Liteモデルが保存されました: {tflite_model_path}")
+    except Exception as e:
+        print(f"モデルの変換中にエラーが発生しました: {e}")
 
 # 画像をキャプチャして収穫状態を判定する関数
 def capture_image_and_predict(model):
@@ -120,8 +115,9 @@ def capture_image_and_predict(model):
     img_array = np.expand_dims(img_array, axis=0)  # バッチサイズを追加
     img_array = img_array / 255.0  # 正規化
 
-    # TensorFlow Liteモデルによる推論
-    predicted_class = run_tflite_inference(model, img_array)
+    # モデルによる予測
+    predictions = model.predict(img_array)
+    predicted_class = np.argmax(predictions)
 
     # 結果の表示
     categories = ['pre_harvest', 'harvest', 'post_harvest']
