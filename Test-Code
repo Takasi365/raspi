@@ -1,21 +1,3 @@
-(env) takase@raspberrypi:~/hervest_detection $ git pull origin main
-remote: Enumerating objects: 5, done.
-remote: Counting objects: 100% (5/5), done.
-remote: Compressing objects: 100% (3/3), done.
-Unpacking objects: 100% (3/3), 1.43 KiB | 1.43 MiB/s, done.
-remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
-From github.com:Takasi365/raspi
- * branch            main       -> FETCH_HEAD
-   9f55185..c484ac1  main       -> origin/main
-Merge made by the 'ort' strategy.
- Test-Code | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
-(env) takase@raspberrypi:~/hervest_detection $ git push origin main
-To github.com:Takasi365/raspi.git
- ! [rejected]        main -> main (fetch first)
-error: failed to push some refs to 'github.com:Takasi365/raspi.git'
-hint: Updates were rejected because the remote contains work that you do
-hint: not have locally. This is usually caused by another repository pushing
-hint: to the same ref. You may want to first integrate the remote changes
-hint: (e.g., 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+(env) takase@raspberrypi:~/hervest_detection $ git pull --rebase origin main
+error: cannot pull with rebase: You have unstaged changes.
+error: please commit or stash them.
