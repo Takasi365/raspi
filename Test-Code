@@ -1,4 +1,13 @@
-(env) takase@raspberrypi:~/hervest_detection $ git add data/captured_image.jpg
+(env) takase@raspberrypi:~/hervest_detection $ git pull origin main --rebase
+error: cannot pull with rebase: You have unstaged changes.
+error: please commit or stash them.
+(env) takase@raspberrypi:~/hervest_detection $ git add <conflicted-file>
+bash: syntax error near unexpected token `newline'
+(env) takase@raspberrypi:~/hervest_detection $ git rabase --continue
+git: 'rabase' is not a git command. See 'git --help'.
+
+The most similar command is
+	rebase
 (env) takase@raspberrypi:~/hervest_detection $ git commit -m "Update captured image"
 On branch main
 Your branch is up to date with 'origin/main'.
