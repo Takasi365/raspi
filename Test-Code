@@ -1,1 +1,6 @@
-
+git add captured_image.jpg harvest_detection3.py
+git commit -m "Update captured image and harvest_detection3.py"
+git pull origin main --rebase
+git push origin main
+git pull origin main --rebase
+git push origin main
