@@ -1,22 +1,23 @@
-def upload_image_to_github(image_path):
-    try:
-        # 画像が保存されていることを確認
-        if not os.path.exists(image_path):
-            print(f"画像ファイル {image_path} が見つかりません")
-            return
+(env) takase@raspberrypi:~/hervest_detection $ git status
+On branch main
+Your branch is up to date with 'origin/main'.
 
-        # Gitの状態を確認して、アップロードできるようにする
-        print("Gitステータスを確認中...")
-        result = subprocess.run(["git", "status"], capture_output=True, text=True, check=True)
-        print(result.stdout)  # Gitの状態を出力
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   captured_image.jpg
 
-        subprocess.run(["git", "add", image_path], check=True)
-        subprocess.run(["git", "commit", "-m", "Add captured image"], check=True)
-        subprocess.run(["git", "push", "origin", "main"], check=True)
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	Detail.txt
+	data/harvest/
+	data/post_harvest/
+	data/pre_harvest/
+	harvest-images
+	model/
 
-        print("GitHubに画像をアップロードしました。")
-
-    except subprocess.CalledProcessError as e:
-        print(f"Gitコマンドエラー: {e.stderr}")
-    except Exception as e:
-        print(f"GitHubへのアップロードエラー: {e}")
+no changes added to commit (use "git add" and/or "git commit -a")
+(env) takase@raspberrypi:~/hervest_detection $ 
+(env) takase@raspberrypi:~/hervest_detection $ git remote -v
+origin	git@github.com:Takasi365/raspi.git (fetch)
+origin	git@github.com:Takasi365/raspi.git (push)
