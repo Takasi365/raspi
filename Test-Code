@@ -4,23 +4,26 @@ WARNING:absl:Compiled the loaded model, but the compiled metrics have yet to be 
 Arduino からのリクエストを待機中...
 Arduinoから受信: AI Judgment Request
 収穫判定を開始します...
-[5:31:27.326566619] [5798]  WARN IPAManager ipa_manager.cpp:108 Public key not valid
-[5:31:27.328526637] [5798]  INFO Camera camera_manager.cpp:325 libcamera v0.3.2+99-1230f78d
-[5:31:27.337294858] [5816]  INFO RPI pisp.cpp:695 libpisp version v1.0.7 28196ed6edcf 29-08-2024 (16:33:32)
-[5:31:27.401876995] [5816]  INFO RPI pisp.cpp:1154 Registered camera /base/axi/pcie@120000/rp1/i2c@80000/imx708@1a to CFE device /dev/media2 and ISP device /dev/media0 using PiSP variant BCM2712_C0
-[5:31:27.407051698] [5798]  INFO Camera camera.cpp:1197 configuring streams: (0) 640x480-XBGR8888 (1) 1536x864-BGGR_PISP_COMP1
-[5:31:27.407448180] [5816]  INFO RPI pisp.cpp:1450 Sensor: /base/axi/pcie@120000/rp1/i2c@80000/imx708@1a - Selected sensor format: 1536x864-SBGGR10_1X10 - Selected CFE format: 1536x864-PC1B
-1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 104ms/step
-予測された収穫状態: harvest
+[7:35:33.332455510] [6955]  WARN IPAManager ipa_manager.cpp:108 Public key not valid
+[7:35:33.334426934] [6955]  INFO Camera camera_manager.cpp:325 libcamera v0.3.2+99-1230f78d
+[7:35:33.343080147] [6973]  INFO RPI pisp.cpp:695 libpisp version v1.0.7 28196ed6edcf 29-08-2024 (16:33:32)
+[7:35:33.409168300] [6973]  INFO RPI pisp.cpp:1154 Registered camera /base/axi/pcie@120000/rp1/i2c@80000/imx708@1a to CFE device /dev/media2 and ISP device /dev/media0 using PiSP variant BCM2712_C0
+[7:35:33.414153295] [6955]  INFO Camera camera.cpp:1197 configuring streams: (0) 640x480-XBGR8888 (1) 1536x864-BGGR_PISP_COMP1
+[7:35:33.414624165] [6973]  INFO RPI pisp.cpp:1450 Sensor: /base/axi/pcie@120000/rp1/i2c@80000/imx708@1a - Selected sensor format: 1536x864-SBGGR10_1X10 - Selected CFE format: 1536x864-PC1B
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 105ms/step
+予測された収穫状態: pre_harvest
 Gitステータスを確認中...
 On branch main
-Your branch is ahead of 'origin/main' by 2 commits.
+Your branch is ahead of 'origin/main' by 4 commits.
   (use "git push" to publish your local commits)
 
 Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
+  (use "git add/rm <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
+  (commit or discard the untracked or modified content in submodules)
+	deleted:    captured_image.jpg
 	modified:   data/captured_image.jpg
+	modified:   raspi (modified content)
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
@@ -30,10 +33,11 @@ Untracked files:
 	data/pre_harvest/
 	harvest-images
 	model/
+	server.py
 
 no changes added to commit (use "git add" and/or "git commit -a")
 
-[main a29ea74] Add captured image
+[main a3be401] Add captured image
  1 file changed, 0 insertions(+), 0 deletions(-)
 To github.com:Takasi365/raspi.git
  ! [rejected]        main -> main (fetch first)
