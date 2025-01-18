@@ -1,3 +1,219 @@
+(env) takase@raspberrypi:~/hervest_detection $ git remote -v
+fatal: not a git repository (or any of the parent directories): .git
+(env) takase@raspberrypi:~/hervest_detection $ git init
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint: 
+hint: 	git config --global init.defaultBranch <name>
+hint: 
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint: 
+hint: 	git branch -m <name>
+Initialized empty Git repository in /home/takase/hervest_detection/.git/
+(env) takase@raspberrypi:~/hervest_detection $ git remote add origin git@github.com:<username>/<repository>.git
+bash: username: No such file or directory
+(env) takase@raspberrypi:~/hervest_detection $ git remote add origin git@github.com:Takasi365/raspi.git
+(env) takase@raspberrypi:~/hervest_detection $ git add .
+warning: adding embedded git repository: raspi
+hint: You've added another git repository inside your current repository.
+hint: Clones of the outer repository will not contain the contents of
+hint: the embedded repository and will not know how to obtain it.
+hint: If you meant to add a submodule, use:
+hint: 
+hint: 	git submodule add <url> raspi
+hint: 
+hint: If you added this path by mistake, you can remove it from the
+hint: index with:
+hint: 
+hint: 	git rm --cached raspi
+hint: 
+hint: See "git help submodule" for more information.
+(env) takase@raspberrypi:~/hervest_detection $ git commit -m "Initial commit"
+Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'takase@raspberrypi.(none)')
+(env) takase@raspberrypi:~/hervest_detection $ git push -u origin main
+error: src refspec main does not match any
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+(env) takase@raspberrypi:~/hervest_detection $ git branch
+(env) takase@raspberrypi:~/hervest_detection $ git checkout -b main
+Switched to a new branch 'main'
+(env) takase@raspberrypi:~/hervest_detection $ git add
+Nothing specified, nothing added.
+hint: Maybe you wanted to say 'git add .'?
+hint: Turn this message off by running
+hint: "git config advice.addEmptyPathspec false"
+(env) takase@raspberrypi:~/hervest_detection $ git commit -m "Initial commit"
+Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'takase@raspberrypi.(none)')
+(env) takase@raspberrypi:~/hervest_detection $ git push -u origin main
+error: src refspec main does not match any
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+(env) takase@raspberrypi:~/hervest_detection $ it config --global user.name "Takasi365"
+git config --global user.email "takasi0128zero@gmail.com"
+bash: it: command not found
+(env) takase@raspberrypi:~/hervest_detection $ it config --global user.name "Takasi365"
+bash: it: command not found
+(env) takase@raspberrypi:~/hervest_detection $ git config --global user.email "takasi0128zero@gmail.com"
+(env) takase@raspberrypi:~/hervest_detection $ git add .
+(env) takase@raspberrypi:~/hervest_detection $ git commit -m "Initial commit"
+Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: empty ident name (for <takasi0128zero@gmail.com>) not allowed
+(env) takase@raspberrypi:~/hervest_detection $ git push -u origin main
+error: src refspec main does not match any
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+(env) takase@raspberrypi:~/hervest_detection $ git config --global user.name "Takasi365"
+git config --global user.email "takasi0128zero@gmail.com"
+git add .
+git commit -m "Initial commit"
+git push -u origin main
+[main (root-commit) 0326f86] Initial commit
+ 37 files changed, 494 insertions(+)
+ create mode 100644 Detail.txt
+ create mode 100644 capture_image.py
+ create mode 100644 captured_image.jpg
+ create mode 100644 cat
+ create mode 100644 cat.pub
+ create mode 100644 data/captured_image.jpg
+ create mode 100644 data/harvest/image1.jpg
+ create mode 100644 data/harvest/image2.jpg
+ create mode 100644 data/harvest/image3.jpg
+ create mode 100644 data/harvest/image4.jpg
+ create mode 100644 data/harvest/image5.jpg
+ create mode 100644 data/harvest/image6.jpg
+ create mode 100644 data/harvest/image7.jpg
+ create mode 100644 data/harvest/image8.jpg
+ create mode 100644 data/post_harvest/image1.jpg
+ create mode 100644 data/post_harvest/image2.jpg
+ create mode 100644 data/post_harvest/image3.jpg
+ create mode 100644 data/post_harvest/image4.jpg
+ create mode 100644 data/post_harvest/image5.jpg
+ create mode 100644 data/post_harvest/image6.jpg
+ create mode 100644 data/post_harvest/image7.jpg
+ create mode 100644 data/post_harvest/image8.jpg
+ create mode 100644 data/pre_harvest/image1.jpg
+ create mode 100644 data/pre_harvest/image2.jpg
+ create mode 100644 data/pre_harvest/image3.jpg
+ create mode 100644 data/pre_harvest/image4.jpg
+ create mode 100644 data/pre_harvest/image5.jpg
+ create mode 100644 data/pre_harvest/image6.jpg
+ create mode 100644 data/pre_harvest/image7.jpg
+ create mode 100644 data/pre_harvest/image8.jpg
+ create mode 100644 harvest_detection.py
+ create mode 100644 harvest_detection2.py
+ create mode 100644 harvest_detection3.py
+ create mode 100644 model/harvest_model.h5
+ create mode 160000 raspi
+ create mode 100644 requirements.txt
+ create mode 100644 train_model.py
+To github.com:Takasi365/raspi.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+(env) takase@raspberrypi:~/hervest_detection $ git commit -m "Initial commit"
+On branch main
+nothing to commit, working tree clean
+(env) takase@raspberrypi:~/hervest_detection $ git push -u origin main
+To github.com:Takasi365/raspi.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+(env) takase@raspberrypi:~/hervest_detection $ git pull origin main
+git add .
+git commit -m "Resolved merge conflicts"
+remote: Enumerating objects: 153, done.
+remote: Counting objects: 100% (153/153), done.
+remote: Compressing objects: 100% (151/151), done.
+remote: Total 153 (delta 74), reused 0 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (153/153), 58.57 KiB | 359.00 KiB/s, done.
+Resolving deltas: 100% (74/74), done.
+From github.com:Takasi365/raspi
+ * branch            main       -> FETCH_HEAD
+ * [new branch]      main       -> origin/main
+hint: You have divergent branches and need to specify how to reconcile them.
+hint: You can do so by running one of the following commands sometime before
+hint: your next pull:
+hint: 
+hint:   git config pull.rebase false  # merge
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint: 
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+fatal: Need to specify how to reconcile divergent branches.
+On branch main
+nothing to commit, working tree clean
+(env) takase@raspberrypi:~/hervest_detection $ git push -u origin main
+To github.com:Takasi365/raspi.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+(env) takase@raspberrypi:~/hervest_detection $ git push -u origin main
+To github.com:Takasi365/raspi.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+(env) takase@raspberrypi:~/hervest_detection $ git pull --rebase origin main
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 2.13 KiB | 2.13 MiB/s, done.
+From github.com:Takasi365/raspi
+ * branch            main       -> FETCH_HEAD
+   c7d37b4..de29c17  main       -> origin/main
+warning: unable to rmdir 'raspi': Directory not empty
+Successfully rebased and updated refs/heads/main.
 (env) takase@raspberrypi:~/hervest_detection $ git push -u origin main
 Enumerating objects: 39, done.
 Counting objects: 100% (39/39), done.
