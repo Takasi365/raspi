@@ -1,16 +1,20 @@
 import serial
+import time
 
-# シリアルポートの設定（Arduino のポートに合わせる）
+# シリアルポートを開く
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+time.sleep(2)  # Arduino のリセット待ち（重要）
 
-while True:
-    try:
-        data = ser.readline().decode('utf-8').strip()  # 1行読み込んでデコード
+try:
+    while True:
+        # Arduino からデータを受信
+        data = ser.readline().decode('utf-8').strip()
         if data:
-            print("Received:", data)  # 受信データを表示
-    except KeyboardInterrupt:
-        print("プログラムを終了します")
-        ser.close()
-        break
-    except Exception as e:
-        print("エラー:", e)
+            print("Received from Arduino:", data)  # Raspberry Pi に出力
+
+            # 受信したら Arduino にメッセージを送信
+            ser.write("Message from Raspberry Pi\n".encode('utf-8'))
+
+except KeyboardInterrupt:
+    print("\nプログラムを終了します")
+    ser.close()
