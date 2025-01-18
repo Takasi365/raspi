@@ -1,4 +1,5 @@
-(env) takase@raspberrypi:~/hervest_detection $ git status
+(env) takase@raspberrypi:~/hervest_detection $ git add data/captured_image.jpg
+(env) takase@raspberrypi:~/hervest_detection $ git commit -m "Update captured image"
 On branch main
 Your branch is up to date with 'origin/main'.
 
@@ -6,6 +7,7 @@ Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
 	modified:   captured_image.jpg
+	modified:   harvest_detection3.py
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
@@ -17,7 +19,12 @@ Untracked files:
 	model/
 
 no changes added to commit (use "git add" and/or "git commit -a")
-(env) takase@raspberrypi:~/hervest_detection $ 
-(env) takase@raspberrypi:~/hervest_detection $ git remote -v
-origin	git@github.com:Takasi365/raspi.git (fetch)
-origin	git@github.com:Takasi365/raspi.git (push)
+(env) takase@raspberrypi:~/hervest_detection $ git push origin main
+To github.com:Takasi365/raspi.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
