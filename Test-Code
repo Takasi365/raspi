@@ -1,111 +1,46 @@
-import os
-import numpy as np
-import tensorflow as tf
-from tensorflow.keras.preprocessing import image
-import serial
-import time
-from picamera2 import Picamera2
-import subprocess
+(env) takase@raspberrypi:~/hervest_detection $ python harvest_detection3.py
+既存のモデルを読み込んでいます...
+WARNING:absl:Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+Arduino からのリクエストを待機中...
+Arduinoから受信: AI Judgment Request
+収穫判定を開始します...
+[5:31:27.326566619] [5798]  WARN IPAManager ipa_manager.cpp:108 Public key not valid
+[5:31:27.328526637] [5798]  INFO Camera camera_manager.cpp:325 libcamera v0.3.2+99-1230f78d
+[5:31:27.337294858] [5816]  INFO RPI pisp.cpp:695 libpisp version v1.0.7 28196ed6edcf 29-08-2024 (16:33:32)
+[5:31:27.401876995] [5816]  INFO RPI pisp.cpp:1154 Registered camera /base/axi/pcie@120000/rp1/i2c@80000/imx708@1a to CFE device /dev/media2 and ISP device /dev/media0 using PiSP variant BCM2712_C0
+[5:31:27.407051698] [5798]  INFO Camera camera.cpp:1197 configuring streams: (0) 640x480-XBGR8888 (1) 1536x864-BGGR_PISP_COMP1
+[5:31:27.407448180] [5816]  INFO RPI pisp.cpp:1450 Sensor: /base/axi/pcie@120000/rp1/i2c@80000/imx708@1a - Selected sensor format: 1536x864-SBGGR10_1X10 - Selected CFE format: 1536x864-PC1B
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 104ms/step
+予測された収穫状態: harvest
+Gitステータスを確認中...
+On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
 
-# シリアル通信設定（Arduinoのポートに合わせて変更）
-SERIAL_PORT = "/dev/ttyACM0"
-BAUD_RATE = 9600
-ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   data/captured_image.jpg
 
-# モデルの保存パス
-MODEL_PATH = "model/harvest_model.h5"
-CATEGORIES = ['pre_harvest', 'harvest', 'post_harvest']
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	Detail.txt
+	data/harvest/
+	data/post_harvest/
+	data/pre_harvest/
+	harvest-images
+	model/
 
-# モデルの読み込み
-def load_model():
-    if os.path.exists(MODEL_PATH):
-        print("既存のモデルを読み込んでいます...")
-        return tf.keras.models.load_model(MODEL_PATH)
-    else:
-        raise FileNotFoundError("モデルが見つかりません！事前に学習を行ってください。")
+no changes added to commit (use "git add" and/or "git commit -a")
 
-# 画像をキャプチャして収穫状態を判定
-def capture_image_and_predict(model):
-    try:
-        # カメラの初期化
-        picam2 = Picamera2()
-        picam2.start()
-        time.sleep(2)  # カメラ起動待機
-
-        # 画像をキャプチャ
-        image_path = "/home/takase/hervest_detection/data/captured_image.jpg"
-        picam2.capture_file(image_path)
-        
-        # カメラを閉じる（リソース解放）
-        picam2.stop()
-        picam2.close()
-
-        # 画像を読み込んで前処理
-        img = image.load_img(image_path, target_size=(150, 150))
-        img_array = image.img_to_array(img) / 255.0
-        img_array = np.expand_dims(img_array, axis=0)
-
-        # 予測
-        predictions = model.predict(img_array)
-        predicted_class = np.argmax(predictions)
-        result = CATEGORIES[predicted_class]
-
-        print(f"予測された収穫状態: {result}")
-        return result
-
-    except Exception as e:
-        print(f"カメラエラー: {e}")
-        return "error"
-
-# 画像をGitHubにアップロード
-def upload_image_to_github(image_path):
-    try:
-        # 画像が保存されていることを確認
-        if not os.path.exists(image_path):
-            print(f"画像ファイル {image_path} が見つかりません")
-            return
-
-        # Gitの状態を確認して、アップロードできるようにする
-        print("Gitステータスを確認中...")
-        result = subprocess.run(["git", "status"], capture_output=True, text=True, check=True)
-        print(result.stdout)  # Gitの状態を出力
-
-        subprocess.run(["git", "add", image_path], check=True)
-        subprocess.run(["git", "commit", "-m", "Add captured image"], check=True)
-        subprocess.run(["git", "push", "origin", "main"], check=True)
-
-        print("GitHubに画像をアップロードしました。")
-
-    except subprocess.CalledProcessError as e:
-        print(f"Gitコマンドエラー: {e.stderr}")
-    except Exception as e:
-        print(f"GitHubへのアップロードエラー: {e}")
-
-# シリアル通信でArduinoと連携
-def serial_communication(model):
-    print("Arduino からのリクエストを待機中...")
-
-    while True:
-        if ser.in_waiting:
-            message = ser.readline().decode('utf-8').strip()
-            print(f"Arduinoから受信: {message}")
-
-            if message == "AI Judgment Request":
-                print("収穫判定を開始します...")
-                result = capture_image_and_predict(model)
-
-                # 画像のアップロード
-                image_path = "/home/takase/hervest_detection/data/captured_image.jpg"
-                upload_image_to_github(image_path)
-
-                # 判定結果をArduinoに送信
-                ser.write((result + "\n").encode('utf-8'))
-                print(f"Arduinoへ送信: {result}")
-
-# メイン処理
-def main():
-    model = load_model()
-    serial_communication(model)
-
-if __name__ == '__main__':
-    main()
+[main a29ea74] Add captured image
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+To github.com:Takasi365/raspi.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+Gitコマンドエラー: None
