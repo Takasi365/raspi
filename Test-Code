@@ -7,3 +7,12 @@ The most similar command is
 (env) takase@raspberrypi:~/hervest_detection $ git pull --rebase origin main
 error: cannot pull with rebase: Your index contains uncommitted changes.
 error: please commit or stash them.
+(env) takase@raspberrypi:~/hervest_detection $ git push origin main
+To github.com:Takasi365/raspi.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
