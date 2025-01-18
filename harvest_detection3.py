@@ -66,15 +66,18 @@ def upload_image_to_github(image_path):
             return
 
         # Gitの状態を確認して、アップロードできるようにする
-        subprocess.run(["git", "add", image_path])
+        print("Gitステータスを確認中...")
+        result = subprocess.run(["git", "status"], capture_output=True, text=True, check=True)
+        print(result.stdout)  # Gitの状態を出力
 
-        # 変更をコミット
-        subprocess.run(["git", "commit", "-m", "Add captured image"])
+        subprocess.run(["git", "add", image_path], check=True)
+        subprocess.run(["git", "commit", "-m", "Add captured image"], check=True)
+        subprocess.run(["git", "push", "origin", "main"], check=True)
 
-        # GitHubにプッシュ
-        subprocess.run(["git", "push", "origin", "main"])
         print("GitHubに画像をアップロードしました。")
 
+    except subprocess.CalledProcessError as e:
+        print(f"Gitコマンドエラー: {e.stderr}")
     except Exception as e:
         print(f"GitHubへのアップロードエラー: {e}")
 
