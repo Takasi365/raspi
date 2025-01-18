@@ -18,6 +18,9 @@ ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
 MODEL_PATH = "model/harvest_model.h5"
 CATEGORIES = ['pre_harvest', 'harvest', 'post_harvest']
 
+# UR_Aの定義（整数型）
+UR_A = 0  # 初期値を設定
+
 # モデルの読み込み
 def load_model():
     if os.path.exists(MODEL_PATH):
@@ -85,6 +88,8 @@ def upload_image_to_github(image_path):
 
 # シリアル通信でArduinoと連携
 def serial_communication(model):
+    global UR_A  # UR_Aをグローバルに扱う
+
     print("Arduino からのリクエストを待機中...")
 
     while True:
@@ -104,8 +109,19 @@ def serial_communication(model):
                 ser.write((result + "\n").encode('utf-8'))
                 print(f"Arduinoへ送信: {result}")
 
+                # UR_Aを更新（同期を取る）
+                UR_A = 1  # 収穫判定が完了したことを示す
+                print(f"UR_A updated: {UR_A}")
+            else:
+                # Arduinoからの別のメッセージに対する処理
+                print("別のメッセージを受信")
+                UR_A = 0  # 状態をリセット
+                print(f"UR_A reset: {UR_A}")
+
 # WebSocketサーバーの処理
 async def websocket_server(websocket, path, model):
+    global UR_A  # UR_Aをグローバルに扱う
+
     try:
         print(f"Client connected: {websocket.remote_address}")
 
@@ -124,6 +140,16 @@ async def websocket_server(websocket, path, model):
                 # 結果をクライアントに送信
                 await websocket.send(result)
                 print(f"Sent to client: {result}")
+
+                # UR_Aを更新（同期を取る）
+                UR_A = 1  # 収穫判定が完了したことを示す
+                print(f"UR_A updated: {UR_A}")
+
+            else:
+                # WebSocketからの別のメッセージに対する処理
+                print("別のメッセージを受信")
+                UR_A = 0  # 状態をリセット
+                print(f"UR_A reset: {UR_A}")
 
     except Exception as e:
         print(f"Error: {e}")
