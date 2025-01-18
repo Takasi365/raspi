@@ -1,0 +1,16 @@
+import serial
+
+# シリアルポートの設定（Arduino のポートに合わせる）
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+
+while True:
+    try:
+        data = ser.readline().decode('utf-8').strip()  # 1行読み込んでデコード
+        if data:
+            print("Received:", data)  # 受信データを表示
+    except KeyboardInterrupt:
+        print("プログラムを終了します")
+        ser.close()
+        break
+    except Exception as e:
+        print("エラー:", e)
