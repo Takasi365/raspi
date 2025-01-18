@@ -6,6 +6,8 @@ import serial
 import time
 from picamera2 import Picamera2
 import subprocess
+import asyncio
+import websockets
 
 # シリアル通信設定（Arduinoのポートに合わせて変更）
 SERIAL_PORT = "/dev/ttyACM0"
@@ -102,10 +104,47 @@ def serial_communication(model):
                 ser.write((result + "\n").encode('utf-8'))
                 print(f"Arduinoへ送信: {result}")
 
+# WebSocketサーバーの処理
+async def websocket_server(websocket, path, model):
+    try:
+        print(f"Client connected: {websocket.remote_address}")
+
+        # クライアントからのメッセージを待機
+        async for message in websocket:
+            print(f"Received message: {message}")
+
+            if message == "AI Judgment Request":
+                print("収穫判定を開始します...")
+                result = capture_image_and_predict(model)
+
+                # 画像のアップロード
+                image_path = "/home/takase/hervest_detection/data/captured_image.jpg"
+                upload_image_to_github(image_path)
+
+                # 結果をクライアントに送信
+                await websocket.send(result)
+                print(f"Sent to client: {result}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+        await websocket.close()
+
+# WebSocketサーバーを開始
+async def start_websocket_server():
+    model = load_model()
+    server = await websockets.serve(lambda ws, path: websocket_server(ws, path, model), "0.0.0.0", 8765)
+    await server.wait_closed()
+
 # メイン処理
 def main():
-    model = load_model()
-    serial_communication(model)
+    # シリアル通信スレッドとWebSocketサーバーを非同期で実行
+    loop = asyncio.get_event_loop()
+
+    # WebSocketサーバーを起動
+    loop.create_task(start_websocket_server())
+
+    # シリアル通信を実行
+    serial_communication(load_model())
 
 if __name__ == '__main__':
     main()
