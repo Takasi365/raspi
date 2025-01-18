@@ -1,39 +1,4 @@
-(env) takase@raspberrypi:~/hervest_detection $ git pull origin main --rebase
-error: cannot pull with rebase: You have unstaged changes.
-error: please commit or stash them.
-(env) takase@raspberrypi:~/hervest_detection $ git add <conflicted-file>
-bash: syntax error near unexpected token `newline'
-(env) takase@raspberrypi:~/hervest_detection $ git rabase --continue
-git: 'rabase' is not a git command. See 'git --help'.
-
-The most similar command is
-	rebase
-(env) takase@raspberrypi:~/hervest_detection $ git commit -m "Update captured image"
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-	modified:   captured_image.jpg
-	modified:   harvest_detection3.py
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	Detail.txt
-	data/harvest/
-	data/post_harvest/
-	data/pre_harvest/
-	harvest-images
-	model/
-
-no changes added to commit (use "git add" and/or "git commit -a")
-(env) takase@raspberrypi:~/hervest_detection $ git push origin main
-To github.com:Takasi365/raspi.git
- ! [rejected]        main -> main (fetch first)
-error: failed to push some refs to 'github.com:Takasi365/raspi.git'
-hint: Updates were rejected because the remote contains work that you do
-hint: not have locally. This is usually caused by another repository pushing
-hint: to the same ref. You may want to first integrate the remote changes
-hint: (e.g., 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+git add captured_image.jpg harvest_detection3.py
+git commit -m "Update captured image and harvest_detection3.py"
+git pull origin main --rebase
+git push origin main
