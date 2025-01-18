@@ -1,2 +1,5 @@
 git config --global user.name "Takasi365"
 git config --global user.email "takasi0128zero@gmail.com"
+git add .
+git commit -m "Initial commit"
+git push -u origin main
