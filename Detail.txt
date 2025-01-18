@@ -1,0 +1,4 @@
+source ~/env/bin/activate
+cd ~/hervest_detection
+python capture_image_test.py
+python capture_image_test.py
