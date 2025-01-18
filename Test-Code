@@ -1,5 +1,4 @@
-git config --global user.name "Takasi365"
-git config --global user.email "takasi0128zero@gmail.com"
+git pull origin main
 git add .
-git commit -m "Initial commit"
+git commit -m "Resolved merge conflicts"
 git push -u origin main
