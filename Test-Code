@@ -1,6 +1,8 @@
-git add captured_image.jpg harvest_detection3.py
-git commit -m "Update captured image and harvest_detection3.py"
-git pull origin main --rebase
-git push origin main
-git pull origin main --rebase
-git push origin main
+(env) takase@raspberrypi:~/hervest_detection $ git push origin main
+To github.com:Takasi365/raspi.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'github.com:Takasi365/raspi.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
