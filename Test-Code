@@ -1,24 +1,15 @@
-(env) takase@raspberrypi:~/hervest_detection $ git add data/captured_image.jpg
-git commit -m "Update captured image"
-git push
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	Detail.txt
-	data/harvest/
-	data/post_harvest/
-	data/pre_harvest/
-	harvest-images
-	model/
-
-nothing added to commit but untracked files present (use "git add" to track)
-To github.com:Takasi365/raspi.git
- ! [rejected]        main -> main (fetch first)
-error: failed to push some refs to 'github.com:Takasi365/raspi.git'
-hint: Updates were rejected because the remote contains work that you do
-hint: not have locally. This is usually caused by another repository pushing
-hint: to the same ref. You may want to first integrate the remote changes
-hint: (e.g., 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+(env) takase@raspberrypi:~/hervest_detection $ git pull origin main --rebase
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 9 (delta 4), reused 1 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (9/9), 3.01 KiB | 3.01 MiB/s, done.
+From github.com:Takasi365/raspi
+ * branch            main       -> FETCH_HEAD
+   2da457e..039773e  main       -> origin/main
+Updating 2da457e..039773e
+Fast-forward
+ Test-Code | 236 +++++++++++++++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1 file changed, 15 insertions(+), 221 deletions(-)
+(env) takase@raspberrypi:~/hervest_detection $ git push origin main
+Everything up-to-date
