@@ -1,2 +1,7 @@
-(env) takase@raspberrypi:~/hervest_detection $ ls home/takase/hervest_detection/
-ls: cannot access 'home/takase/hervest_detection/': No such file or directory
+(env) takase@raspberrypi:~/hervest_detection $ ls /home/takase/hervest_detection/
+arduino  capture_image.py  capture_image_test.py  cat  cat.pub  data  Detail.txt  harvest_detection2.py  harvest_detection3.py  harvest_detection.py  harvest-images  logs  model  predict.py  raspi  requirements.txt  take_photo.py  Test-Code  train_and_predict.py  train_model.py
+(env) takase@raspberrypi:~/hervest_detection $ python harvest_detection3.py
+Traceback (most recent call last):
+  File "/home/takase/hervest_detection/harvest_detection3.py", line 9, in <module>
+    from flask import Flask, request, jsonify
+ModuleNotFoundError: No module named 'flask'
