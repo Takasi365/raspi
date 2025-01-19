@@ -1,49 +1,39 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
 
 public class GitHubImageDisplay : MonoBehaviour
 {
-    // GitHubに保存された画像のURL
-    public string imageUrl = "https://github.com/username/repository/raw/main/captured_image.jpg"; // 必要に応じてURLを変更
-    public Renderer targetRenderer; // 画像を表示する対象のRenderer（例えば、Quadにアタッチされたもの）
+    public string imageUrl = "https://raw.githubusercontent.com/Takasi365/raspi/main/captured_image.jpg"; // GitHubの画像URL
+    public RawImage rawImage; // 画像を表示するRawImage UIコンポーネント
 
-    // スタート時に画像をダウンロードして表示
     void Start()
     {
-        // 画像をダウンロードして表示するコルーチンを開始
+        // 画像を非同期でダウンロードして表示する
         StartCoroutine(DownloadImage());
     }
 
-    // GitHubから画像をダウンロードして表示するコルーチン
     IEnumerator DownloadImage()
     {
-        using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(imageUrl))
+        using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl))
         {
-            // GitHubから画像をダウンロード
-            yield return www.SendWebRequest();
+            // 画像がダウンロードされるのを待機
+            yield return request.SendWebRequest();
 
-            // ダウンロード結果のチェック
-            if (www.result == UnityWebRequest.Result.Success)
+            // エラーが発生した場合
+            if (request.result != UnityWebRequest.Result.Success)
             {
-                // ダウンロードした画像をTexture2Dとして取得
-                Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-
-                // Rendererが設定されていて、画像が正常にダウンロードされていれば表示
-                if (targetRenderer != null && texture != null)
-                {
-                    targetRenderer.material.mainTexture = texture;
-                    Debug.Log("画像を表示しました！");
-                }
-                else
-                {
-                    Debug.LogError("Rendererがnull、または画像がnullです。");
-                }
+                Debug.LogError("Error downloading image: " + request.error);
             }
             else
             {
-                // ダウンロードに失敗した場合
-                Debug.LogError("画像のダウンロードに失敗しました: " + www.error);
+                // ダウンロードした画像をTexture2Dに変換
+                Texture2D texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+
+                // RawImageに画像を設定
+                rawImage.texture = texture;
+                rawImage.SetNativeSize(); // 画像のサイズに合わせてRawImageを調整
             }
         }
     }
