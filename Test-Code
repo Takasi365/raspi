@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;  // UIのTextを使うために追加
+using TMPro;  // TMP_Text を使用するために追加
 using System.Collections;
 
 public class HarvestRequester : MonoBehaviour
 {
     private string serverUrl = "http://192.168.0.119:5000/predict"; // Raspberry Pi のIPアドレス
 
-    // UIのTextコンポーネントへの参照
-    public Text resultText;
+    // UIのTextMeshPro (TMP_Text) コンポーネントへの参照
+    public TMP_Text resultText;
 
     public void SendHarvestRequest()
     {
@@ -26,7 +26,7 @@ public class HarvestRequester : MonoBehaviour
                 string response = request.downloadHandler.text;
                 Debug.Log("Response: " + response);
 
-                // 取得した結果をUIのTextに反映
+                // 取得した結果をUIのTextMeshProに反映
                 resultText.text = "収穫判定結果: " + response;
             }
             else
