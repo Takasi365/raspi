@@ -1,7 +1,27 @@
-(env) takase@raspberrypi:~/hervest_detection $ ls /home/takase/hervest_detection/
-arduino  capture_image.py  capture_image_test.py  cat  cat.pub  data  Detail.txt  harvest_detection2.py  harvest_detection3.py  harvest_detection.py  harvest-images  logs  model  predict.py  raspi  requirements.txt  take_photo.py  Test-Code  train_and_predict.py  train_model.py
+(env) takase@raspberrypi:~/hervest_detection $ pip install flask
+Looking in indexes: https://pypi.org/simple, https://www.piwheels.org/simple
+Collecting flask
+  Downloading https://www.piwheels.org/simple/flask/flask-3.1.0-py3-none-any.whl (102 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 103.0/103.0 kB 184.4 kB/s eta 0:00:00
+Requirement already satisfied: Werkzeug>=3.1 in /home/takase/env/lib/python3.11/site-packages (from flask) (3.1.3)
+Requirement already satisfied: Jinja2>=3.1.2 in /home/takase/env/lib/python3.11/site-packages (from flask) (3.1.4)
+Collecting itsdangerous>=2.2
+  Downloading https://www.piwheels.org/simple/itsdangerous/itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+Collecting click>=8.1.3
+  Downloading https://www.piwheels.org/simple/click/click-8.1.8-py3-none-any.whl (98 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 98.2/98.2 kB 347.3 kB/s eta 0:00:00
+Collecting blinker>=1.9
+  Downloading https://www.piwheels.org/simple/blinker/blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Requirement already satisfied: MarkupSafe>=2.0 in /home/takase/env/lib/python3.11/site-packages (from Jinja2>=3.1.2->flask) (3.0.2)
+Installing collected packages: itsdangerous, click, blinker, flask
+Successfully installed blinker-1.9.0 click-8.1.8 flask-3.1.0 itsdangerous-2.2.0
 (env) takase@raspberrypi:~/hervest_detection $ python harvest_detection3.py
-Traceback (most recent call last):
-  File "/home/takase/hervest_detection/harvest_detection3.py", line 9, in <module>
-    from flask import Flask, request, jsonify
-ModuleNotFoundError: No module named 'flask'
+既存のモデルを読み込んでいます...
+WARNING:absl:Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+ * Serving Flask app 'harvest_detection3'
+ * Debug mode: off
+INFO:werkzeug:WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.119:5000
+INFO:werkzeug:Press CTRL+C to quit
