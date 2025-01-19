@@ -1,4 +1,8 @@
 source ~/env/bin/activate
 cd ~/hervest_detection
-python capture_image_test.py
-python capture_image_test.py
+git add .
+git commit -m "Save Local changs before pulling"
+git pull --rebase origin main
+git push origin main
+
+python harvest_detection3.py
