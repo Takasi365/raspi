@@ -7,6 +7,7 @@ import time
 from picamera2 import Picamera2
 from flask import Flask, request, jsonify
 import threading
+import subprocess
 
 # シリアル通信設定（Arduinoのポートに合わせて変更）
 SERIAL_PORT = "/dev/ttyACM0"
@@ -28,6 +29,30 @@ def load_model():
     else:
         raise FileNotFoundError("モデルが見つかりません！事前に学習を行ってください。")
 
+# 画像をGitHubにアップロード
+def upload_image_to_github(image_path):
+    try:
+        # 画像が保存されていることを確認
+        if not os.path.exists(image_path):
+            print(f"画像ファイル {image_path} が見つかりません")
+            return
+
+        # Gitの状態を確認して、アップロードできるようにする
+        print("Gitステータスを確認中...")
+        result = subprocess.run(["git", "status"], capture_output=True, text=True, check=True)
+        print(result.stdout)  # Gitの状態を出力
+
+        subprocess.run(["git", "add", image_path], check=True)
+        subprocess.run(["git", "commit", "-m", "Add captured image"], check=True)
+        subprocess.run(["git", "push", "origin", "main"], check=True)
+
+        print("GitHubに画像をアップロードしました。")
+
+    except subprocess.CalledProcessError as e:
+        print(f"Gitコマンドエラー: {e.stderr}")
+    except Exception as e:
+        print(f"GitHubへのアップロードエラー: {e}")
+
 # 画像をキャプチャして収穫状態を判定
 def capture_image_and_predict():
     try:
@@ -39,12 +64,15 @@ def capture_image_and_predict():
         time.sleep(2)  # カメラ起動待機
 
         # 画像をキャプチャ
-        image_path = "/home/takase/hervest_detection/data/captured_image.jpg"  # 保存先を変更
+        image_path = "/home/takase/hervest_detection/data/captured_image.jpg"  # 画像の保存パス
         picam2.capture_file(image_path)
         
         # カメラを閉じる（リソース解放）
         picam2.stop()
         picam2.close()
+
+        # GitHubに画像をアップロード
+        upload_image_to_github(image_path)
 
         # 画像を読み込んで前処理
         img = image.load_img(image_path, target_size=(150, 150))
