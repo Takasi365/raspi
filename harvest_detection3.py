@@ -39,7 +39,7 @@ def capture_image_and_predict():
         time.sleep(2)  # カメラ起動待機
 
         # 画像をキャプチャ
-        image_path = "captured_image.jpg"
+        image_path = "/home/takase/hervest_detection/data/captured_image.jpg"  # 保存先を変更
         picam2.capture_file(image_path)
         
         # カメラを閉じる（リソース解放）
