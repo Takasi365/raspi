@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;  // UIのTextを使うために追加
 using System.Collections;
 
 public class HarvestRequester : MonoBehaviour
 {
     private string serverUrl = "http://192.168.0.119:5000/predict"; // Raspberry Pi のIPアドレス
+
+    // UIのTextコンポーネントへの参照
+    public Text resultText;
 
     public void SendHarvestRequest()
     {
@@ -19,11 +23,16 @@ public class HarvestRequester : MonoBehaviour
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("Response: " + request.downloadHandler.text);
+                string response = request.downloadHandler.text;
+                Debug.Log("Response: " + response);
+
+                // 取得した結果をUIのTextに反映
+                resultText.text = "収穫判定結果: " + response;
             }
             else
             {
                 Debug.LogError("Error: " + request.error);
+                resultText.text = "エラーが発生しました";
             }
         }
     }
